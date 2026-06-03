@@ -1,23 +1,25 @@
-name: Actividad Diaria
+name: Actividad Diaria Automática
 
 on:
   schedule:
-    - cron: '46 20 * * *'
-  workflow_dispatch:
+    - cron: '0 21 * * *'
+  workflow_dispatch: 
 
 jobs:
   refresh-activity:
     runs-on: ubuntu-latest
     steps:
     - name: Clonar repositorio
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4 # <--- Actualizado a v4 para evitar la advertencia
 
     - name: Modificar el README
       run: |
         echo "Última actualización de actividad: $(date)" > actividad.txt
         echo -e "\n" >> README.md
 
-    - name: Hacer Commit y Push
+    - name: Configurar Git y Hacer Commit
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # <--- Esto le da el superpoder de escribir
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
