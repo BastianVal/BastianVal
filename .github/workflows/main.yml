@@ -1,0 +1,26 @@
+name: Actividad Diaria
+
+on:
+  schedule:
+    - cron: '40 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh-activity:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v3
+
+    - name: Modificar el README
+      run: |
+        echo "Última actualización de actividad: $(date)" > actividad.txt
+        echo -e "\n" >> README.md
+
+    - name: Hacer Commit y Push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "style: actualización automática de estado [skip ci]" || exit 0
+        git push
