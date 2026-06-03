@@ -2,7 +2,7 @@ name: Actividad Diaria
 
 on:
   schedule:
-    - cron: '40 8 * * *'
+    - cron: '46 20 * * *'
   workflow_dispatch:
 
 jobs:
